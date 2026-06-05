@@ -48,7 +48,7 @@ a, input, button, .navbar, .fixedmenu, .tp-bullet, .owl-dot, .owl-prev, .owl-nex
 section,.section-padding {position: relative;overflow: hidden;}
 a {color:inherit;text-decoration: none;}
 .btn.focus, .btn:focus{-webkit-box-shadow: none;box-shadow: none;}
-p:last-child{margin-bottom: 0 !important; font-family: '標楷體', sans-serif; text-align: left;}
+p:last-child{margin-bottom: 0 !important; font-family: 'Montserrat', sans-serif; text-align: left; font-weight: 300; line-height: 1.5;}
 .fa, .far, .fas{display: inline;}
 li{list-style: none;text-decoration: none;}
 blockquote {border-left: 2px solid;padding: 10px 15px 10px 35px;margin: 25px 0;font-size: 18px;line-height: 28px;}
@@ -93,7 +93,7 @@ section{padding: 0;}
 
 /* button size */
 .btn.btn-small {font-size:12px; padding: 4px 1.8em;}
-.btn.btn-medium {font-size:16px; padding: 10px 48px; line-height: 1.8em}
+.btn.btn-medium {font-size:16px; padding: 10px 24px; line-height: 1.8em}
 .btn.btn-large {font-size:16px;  padding: 14px 30px; line-height: 1.8em;}
 .btn.btn-rounded {border-radius: 50px;}
 
@@ -103,12 +103,12 @@ section{padding: 0;}
 .text-light-black {color: #232728;}
 
 /* Background color */
-.bg-green {background: #3d5330;}
-.bg-pink {background: #40a4d3;}
-.bg-yellow {background: #cf4444;}
-.bg-gray {background: #999999;}
-.text-light-black {background: #232728;}
-.bg-blue {background: #0163c7;}
+.bg-green {background: #;}
+.bg-pink {background: #;}
+.bg-yellow {background: #;}
+.bg-gray {background: #;}
+.text-light-black {background: #232728a6;}
+.bg-blue {background: #0b3661bf;}
 .bg-red {background: #790707;}
 .bg-transparent {background: transparent;}
 
@@ -264,7 +264,7 @@ section{padding: 0;}
 ====================================== */
 .side_nav{
     display: block;
-    background-color: white;
+    background-image: url(../image/bbg.jpg);
     width:25%;
     float: left;
     height: auto;
@@ -371,7 +371,7 @@ section{padding: 0;}
 }
 
 .side-nav-menu .nav-menu li a{
-    font-family: 'Montserrat', sans-serif;
+    font-family: Cormorant Infant, Shippori Mincho B1, serif;
     text-decoration: none;
     color: #000000;
     transition: .5s ease;
@@ -748,10 +748,14 @@ section{padding: 0;}
 
 /* ===================================
     Expand Nav bar & body Shrink
-====================================== */
+ ====================================== */
 
 .expand_nav{
     left:0;
+}
+
+.side_nav.expand_nav{
+    width:20%;
 }
 
 .close_nav{
@@ -810,7 +814,7 @@ section{padding: 0;}
 .slider-area h1 {
     font-size: 72px;
     line-height: 1.0;
-    font-family: 標楷體;
+    font-family: 'DFKai-SB', 'DFKai-SB';
 }
 
 .slider-area p {
@@ -1312,7 +1316,7 @@ svg.slider-shape{
 ====================================== */
 
 .blog-bg{
-    background-image: url("../image/skills-bg.jpg");
+    background-image: url("../image/skills-bg_4.jpg");
     height: 100vh;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1495,7 +1499,6 @@ svg.slider-shape{
     font-weight: normal;
     font-family: 微軟正黑體;    
     line-height: 2.5;
-    text-align: left;
 }
 
 .contact-sec .contact-details ul{
@@ -1748,7 +1751,7 @@ svg.slider-shape{
         left: 26px;
     }
     .sticky-logo {
-        right: 2px;
+        right: 15px;
     }
     .my_tog {
         margin-right: 18px;
@@ -1934,7 +1937,7 @@ svg.slider-shape{
 
     body {text-align: center;overflow-y: hidden!important;}
     html {scroll-behavior: smooth;}
-    section {padding: 5rem 0;}
+    section {padding: 0rem 0 3rem;}
     .h1, h1 {font-size: 36px;}
     .h2, h2 {font-size: 36px;}
     .h3, h3 {font-size: 24px;}
@@ -2033,7 +2036,7 @@ svg.slider-shape{
         margin: 40px auto 0 auto;
     }
     .contact-sec .contact-details .text {
-        font-size: 17px;
+        font-size: 14px;
     }
     .contact-sec .contact-form {
         width: 100%;
@@ -2071,7 +2074,7 @@ svg.slider-shape{
     }
     /* Banner */
     .slider-area h1 {
-        font-size: 32px;
+        font-size: 32px;        
     }
     .slider-area p {
         font-size: 16px;
