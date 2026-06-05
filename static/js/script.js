@@ -1,6 +1,17 @@
-$(window).on("load", function () {
+﻿$(window).on("load", function () {
 
     "use strict";
+
+    // Mobile: show slider-img.png fully (remove circular clip-path on small screens)
+    (function () {
+        try {
+            if (!window.matchMedia || !window.matchMedia('(max-width: 767.98px)').matches) return;
+            var imgEl = document.getElementById('banner-slider-img');
+            if (imgEl && imgEl.hasAttribute('clip-path')) {
+                imgEl.removeAttribute('clip-path');
+            }
+        } catch (e) {}
+    })();
 
     //Clear URL On Page Refresh
     var loc = window.location.href,
@@ -13,14 +24,55 @@ $(window).on("load", function () {
     /* ===================================
         Page Piling
     ====================================== */
-    if($(window).width() < 1280) {
-        $('.pagedata').removeAttr('id');
-        $('html, body').css('overflow-y', 'scroll');
-        //Team Counter
-        $('.count').each(function () {
-            $(this).appear(function () {
-                $(this).prop('Counter', 0).animate({
-                    Counter: $(this).text()
+	    if($(window).width() < 1280) {
+	        $('.pagedata').removeAttr('id');
+	        $('html, body').css('overflow-y', 'scroll');
+
+	        // Scroll mode: if ancestor tree is expanded and About scrolls out (downwards),
+	        // collapse ancestor tree so it won't overlap the next section.
+	        (function () {
+	            var aboutEl = document.getElementById('about');
+	            if (!aboutEl) return;
+
+	            var collapsedOnce = false;
+	            function isAncestorExpanded() {
+	                try {
+	                    var panel = document.getElementById('genealogy-panel-maternal');
+	                    if (!panel) return false;
+	                    var rootChildren = panel.querySelector('.genealogy-tree > ul > li > ul');
+	                    if (!rootChildren) return false;
+	                    return rootChildren.offsetParent !== null;
+	                } catch (e) {
+	                    return false;
+	                }
+	            }
+
+	            $(window).on('scroll', function () {
+	                if (!isAncestorExpanded()) {
+	                    collapsedOnce = false;
+	                    return;
+	                }
+
+	                var rect = aboutEl.getBoundingClientRect();
+	                if (rect.bottom < 0) {
+	                    if (collapsedOnce) return;
+	                    collapsedOnce = true;
+	                    try {
+	                        if (window.collapseAncestorGenealogyTree) {
+	                            window.collapseAncestorGenealogyTree();
+	                        }
+	                    } catch (e) {}
+	                } else {
+	                    collapsedOnce = false;
+	                }
+	            });
+	        })();
+
+	        //Team Counter
+	        $('.count').each(function () {
+	            $(this).appear(function () {
+	                $(this).prop('Counter', 0).animate({
+	                    Counter: $(this).text()
                 }, {
                     duration: 3000,
                     easing: 'swing',
@@ -46,6 +98,7 @@ $(window).on("load", function () {
         });
     }
     else{
+        var useGenealogyNormalScroll = window.matchMedia && (window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches);
         $('#pagepiling').pagepiling({
             direction: 'vertical',
             sectionsColor: ['#171717', '#171717', '#171717', '#171717', '#171717', '#171717'],
@@ -59,11 +112,13 @@ $(window).on("load", function () {
             navigation: {
                 'bulletsColor': '#535353',
                 'position': 'left',
-                'tooltips': ['家', '樹狀圖', '好味道', '美好照片', '美好影片', '承先啟後故事'],
+                'tooltips': ['家', '樹狀圖', '好味道', '美好照片', '美好影片', '承先起後故事'],
             },
+            normalScrollElements: useGenealogyNormalScroll ? '#about .ancestor-scroll, #about .ancestor-scroll *, #genealogy-panel-paternal .genealogy-body, #genealogy-panel-paternal .genealogy-body *' : null,
+            normalScrollElementTouchThreshold: useGenealogyNormalScroll ? 100 : 5,
 
             //events
-            onLeave: function (index, nextIndex, direction) {
+	            onLeave: function (index, nextIndex, direction) {
                 //reaching our First section? The one with our normal site?
 
                 $('.navbar-top-default').fadeOut();
@@ -112,10 +167,29 @@ $(window).on("load", function () {
                     });
                 }
 
-                if(nextIndex == 1) {
-                    $('.section1left').addClass('slideInLeft');
-                    setTimeout(function(){
-                        $('.section1left').removeClass('slideInLeft');
+	                // About section: ensure tree_open hint is positioned correctly after pagepiling transition
+		                if (nextIndex == 2) {
+		                    setTimeout(function () {
+		                        if (window.updateTreeOpenHint) {
+		                            window.updateTreeOpenHint();
+		                            setTimeout(window.updateTreeOpenHint, 180);
+		                        }
+		                    }, 650);
+		                }
+
+		                // Leaving About: fully collapse genealogy state so expanded containers cannot leak into adjacent sections
+	                if (index == 2) {
+	                    try {
+	                        if (window.resetActiveGenealogyTree) {
+	                            window.resetActiveGenealogyTree();
+	                        }
+	                    } catch (e) {}
+	                }
+
+	                if(nextIndex == 1) {
+	                    $('.section1left').addClass('slideInLeft');
+	                    setTimeout(function(){
+	                        $('.section1left').removeClass('slideInLeft');
                     }, 1800);
 
                     $('.section1right').addClass('slideInRight');
@@ -401,9 +475,9 @@ $("#team-slider").owlCarousel({
     center:true,
     autoplay: true,
     autoplayHoverPause:true,
-    slideSpeed: 3000,
-    paginationSpeed: 5000,
-    smartSpeed:1000,
+    slideSpeed: 900,
+    paginationSpeed: 1500,
+    smartSpeed: 250,
     responsive: {
         992: {
             items: 3
@@ -459,8 +533,8 @@ $(".team-classic.owl-team").owlCarousel({
     nav: false,
     loop:true,
     autoplay: true,
-    smartSpeed:500,
-    navSpeed: true,
+    smartSpeed: 150,
+    navSpeed: 150,
     autoplayHoverPause:true,
     responsiveClass:true,
     responsive: {
@@ -479,6 +553,238 @@ $(".team-classic.owl-team").owlCarousel({
     }
 });
 
+/*===================================
+    Videos Carousel
+====================================== */
+
+if ($(".owl-videos").length) {
+    $(".owl-videos").owlCarousel({
+        items: 2,
+        margin: 30,
+        dots: false,
+        nav: true,
+        loop: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        smartSpeed: 180,
+        responsive: {
+            992: {
+                items: 2
+            },
+            600: {
+                items: 1
+            },
+            320: {
+                items: 1
+            },
+        }
+    });
+}
+
+/*===================================
+    Video review (main + right list)
+====================================== */
+
+(function () {
+    function setMainVideo(videoId) {
+        var frame = document.getElementById('video-review-main');
+        if (!frame || !videoId) return;
+        frame.src = 'https://www.youtube.com/embed/' + videoId;
+    }
+
+    function setMainTitle(title) {
+        var el = document.getElementById('video-review-title');
+        if (!el) return;
+        el.textContent = title || '';
+    }
+
+    $(function () {
+        var $scope = $('.video-review-scope');
+        if (!$scope.length) return;
+
+        // Init from active item
+        var $active = $('.video-review-scope .video-review__item.is-active').first();
+        if ($active.length) {
+            setMainTitle($.trim($active.find('.video-review__label').first().text()));
+        }
+
+        $(document).on('click', '.video-review-scope .video-review__item', function () {
+            var $item = $(this);
+            var id = $item.data('videoId');
+            var title = $.trim($item.find('.video-review__label').first().text());
+            if (!id) return;
+
+            $('.video-review-scope .video-review__item').removeClass('is-active');
+            $('.video-review-scope .video-review__item[data-video-id="' + id + '"]').addClass('is-active');
+            setMainVideo(id);
+            setMainTitle(title);
+        });
+    });
+})();
+
+/*===================================
+    Portfolio thumbs (3 fixed + arrows)
+====================================== */
+
+(function () {
+    function initThumbs($root) {
+        var $track = $root.find('.portfolio-thumbs__track');
+        var $items = $track.find('.portfolio-thumbs__item');
+        var $prev = $root.find('.portfolio-thumbs__nav--prev');
+        var $next = $root.find('.portfolio-thumbs__nav--next');
+        var $portfolio = $root.closest('#portfolio');
+        var $mainLink = $portfolio.find('.portfolio-main__link').first();
+        var $mainImg = $portfolio.find('.portfolio-main__img').first();
+        var $mainCaption = $portfolio.find('.portfolio-main__caption').first();
+
+        var visibleCount = 3;
+
+        if (!$track.length || $items.length <= visibleCount) {
+            $prev.prop('disabled', true);
+            $next.prop('disabled', true);
+            return;
+        }
+
+        // Build loop by cloning head/tail items once.
+        if (!$track.data('thumbsLoopReady')) {
+            var originals = $items.toArray();
+            originals.forEach(function (el, i) {
+                el.dataset.originalIndex = String(i);
+            });
+
+            var cloneCount = Math.min(visibleCount, originals.length);
+            var head = originals.slice(0, cloneCount).map(function (el) {
+                var c = el.cloneNode(true);
+                c.classList.add('is-clone');
+                c.setAttribute('aria-hidden', 'true');
+                c.dataset.originalIndex = el.dataset.originalIndex;
+                return c;
+            });
+
+            var tail = originals.slice(originals.length - cloneCount).map(function (el) {
+                var c = el.cloneNode(true);
+                c.classList.add('is-clone');
+                c.setAttribute('aria-hidden', 'true');
+                c.dataset.originalIndex = el.dataset.originalIndex;
+                return c;
+            });
+
+            // Prepend tail clones, append head clones.
+            tail.forEach(function (c) { $track.get(0).insertBefore(c, $track.get(0).firstChild); });
+            head.forEach(function (c) { $track.get(0).appendChild(c); });
+
+            $track.data('thumbsLoopReady', true);
+        }
+
+        $items = $track.find('.portfolio-thumbs__item');
+        var originalCount = $items.not('.is-clone').length;
+        var cloneCount = Math.min(visibleCount, originalCount);
+
+        // Start at the first original item (after prepended clones).
+        var index = cloneCount;
+
+        function selectOriginal(originalIndex) {
+            if (originalIndex == null) return;
+
+            // Highlight all items (original + clones) that point to the same original index.
+            $items.removeClass('is-active');
+            $items.filter('[data-original-index="' + originalIndex + '"]').addClass('is-active');
+
+            var $original = $items.not('.is-clone').filter('[data-original-index="' + originalIndex + '"]').first();
+            if (!$original.length) return;
+
+            var full = $original.attr('href') || '';
+            var thumb = $original.data('thumb') || $original.find('img').attr('src') || '';
+            var caption = $original.data('caption') || $original.attr('aria-label') || '';
+
+            if ($mainLink.length) {
+                $mainLink.attr('href', full);
+                $mainLink.attr('data-caption', caption);
+            }
+            if ($mainImg.length) {
+                $mainImg.attr('src', thumb);
+                $mainImg.attr('alt', caption);
+            }
+            if ($mainCaption.length) {
+                $mainCaption.text(caption);
+            }
+        }
+
+        function itemStepPx() {
+            var first = $items.get(0);
+            var second = $items.get(1);
+            if (!first || !second) return 0;
+            return Math.round(second.offsetLeft - first.offsetLeft);
+        }
+
+        function setTransition(enabled) {
+            var el = $track.get(0);
+            if (!el) return;
+            el.style.transition = enabled ? 'transform 350ms ease' : 'none';
+        }
+
+        function render(animate) {
+            setTransition(animate !== false);
+            var step = itemStepPx();
+            var offset = step * index;
+            $track.get(0).style.setProperty('--thumbs-offset', offset + 'px');
+            $prev.prop('disabled', false);
+            $next.prop('disabled', false);
+
+            // Seamless jump when reaching clone zones.
+            if (index < cloneCount) {
+                setTimeout(function () {
+                    index += originalCount;
+                    render(false);
+                }, 360);
+            } else if (index >= cloneCount + originalCount) {
+                setTimeout(function () {
+                    index -= originalCount;
+                    render(false);
+                }, 360);
+            }
+        }
+
+        $items.on('click', function (e) {
+            e.preventDefault();
+            var originalIndex = this.dataset.originalIndex;
+            if (typeof originalIndex === 'undefined') return;
+            selectOriginal(originalIndex);
+            index = cloneCount + (parseInt(originalIndex, 10) || 0);
+            render(true);
+        });
+
+        $prev.on('click', function () {
+            index -= 1;
+            render(true);
+        });
+
+        $next.on('click', function () {
+            index += 1;
+            render(true);
+        });
+
+        $(window).on('resize', function () {
+            render(false);
+        });
+
+        var $initial = $items.not('.is-clone').filter('.is-active').first();
+        if (!$initial.length) {
+            $initial = $items.not('.is-clone').first();
+        }
+        var initIdx = $initial.get(0) ? ($initial.get(0).dataset.originalIndex || '0') : '0';
+        selectOriginal(initIdx);
+        index = cloneCount + (parseInt(initIdx, 10) || 0);
+        render(false);
+    }
+
+    $(function () {
+        $('.portfolio-thumbs').each(function () {
+            initThumbs($(this));
+        });
+    });
+})();
+
 // Custom Portfolio OWL
 $('.ini-customNextBtn').click(function () {
     var owl = $('.team-classic.owl-team');
@@ -490,6 +796,171 @@ $('.ini-customPrevBtn').click(function () {
     owl.owlCarousel();
     owl.trigger('prev.owl.carousel', [300]);
 });
+
+/*===================================
+    YouTube audio (contact icons)
+====================================== */
+
+(function () {
+    var VIDEO_ID = 'SNkt7GjmBEU';
+    var BAR_TITLE = '家族音樂';
+
+    var player = null;
+    var tick = null;
+    var ready = false;
+
+    function formatTime(seconds) {
+        var s = Math.max(0, Math.floor(seconds || 0));
+        var m = Math.floor(s / 60);
+        var r = s % 60;
+        return m + ':' + (r < 10 ? '0' + r : r);
+    }
+
+    function showBar($bar) {
+        $bar.prop('hidden', false);
+    }
+
+    function hideBar($bar) {
+        $bar.prop('hidden', true);
+    }
+
+    function clearTick() {
+        if (tick) {
+            window.clearInterval(tick);
+            tick = null;
+        }
+    }
+
+    function startTick($range, $current, $duration) {
+        clearTick();
+        tick = window.setInterval(function () {
+            if (!player || typeof player.getDuration !== 'function') return;
+            var dur = player.getDuration() || 0;
+            var cur = player.getCurrentTime ? player.getCurrentTime() : 0;
+            if (dur > 0) {
+                var ratio = cur / dur;
+                $range.val(String(Math.round(ratio * 1000)));
+            } else {
+                $range.val('0');
+            }
+            $current.text(formatTime(cur));
+            $duration.text(formatTime(dur));
+        }, 250);
+    }
+
+    function ensurePlayer() {
+        if (player || !window.YT || !window.YT.Player) return;
+        player = new window.YT.Player('yt-audio-player', {
+            height: '0',
+            width: '0',
+            videoId: VIDEO_ID,
+            playerVars: {
+                autoplay: 0,
+                controls: 0,
+                fs: 0,
+                modestbranding: 1,
+                rel: 0,
+                playsinline: 1,
+                iv_load_policy: 3,
+            },
+            events: {
+                onReady: function () {
+                    ready = true;
+                },
+                onStateChange: function (e) {
+                    if (!e || typeof e.data === 'undefined') return;
+                    // 0 ended, 1 playing, 2 paused
+                    if (e.data === 0) {
+                        // ended => stop UI
+                        $('#yt-audio-trigger').attr('aria-pressed', 'false');
+                        hideBar($('#yt-audio-bar'));
+                        clearTick();
+                    }
+                },
+            },
+        });
+    }
+
+    // Hook YouTube IFrame API ready (chain-safe)
+    var prevReady = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function () {
+        try {
+            if (typeof prevReady === 'function') prevReady();
+        } catch (e) {}
+        ensurePlayer();
+    };
+
+    $(function () {
+        var $btn = $('#yt-audio-trigger');
+        var $bar = $('#yt-audio-bar');
+        var $barToggle = $('#yt-audio-bar-toggle');
+        var $range = $('#yt-audio-bar-range');
+        var $current = $('#yt-audio-bar-current');
+        var $duration = $('#yt-audio-bar-duration');
+        var $title = $('#yt-audio-bar-title');
+
+        if ($title.length) $title.text(BAR_TITLE);
+
+        if (!$btn.length || !$bar.length || !$barToggle.length || !$range.length) return;
+
+        function isPlaying() {
+            if (!player || typeof player.getPlayerState !== 'function') return false;
+            return player.getPlayerState() === 1;
+        }
+
+        function play() {
+            ensurePlayer();
+            if (!player || !ready) return;
+            showBar($bar);
+            $btn.attr('aria-pressed', 'true');
+            player.playVideo();
+            startTick($range, $current, $duration);
+        }
+
+        function stop() {
+            if (!player || !ready) {
+                $btn.attr('aria-pressed', 'false');
+                hideBar($bar);
+                clearTick();
+                $range.val('0');
+                $current.text('0:00');
+                $duration.text('0:00');
+                return;
+            }
+            player.stopVideo();
+            $btn.attr('aria-pressed', 'false');
+            hideBar($bar);
+            clearTick();
+            $range.val('0');
+            $current.text('0:00');
+            $duration.text('0:00');
+        }
+
+        $btn.on('click', function () {
+            if (isPlaying()) {
+                stop();
+            } else {
+                play();
+            }
+        });
+
+        $barToggle.on('click', function () {
+            stop();
+        });
+
+        $range.on('input', function () {
+            if (!player || !ready) return;
+            var dur = player.getDuration ? player.getDuration() : 0;
+            if (!dur) return;
+            var value = parseInt($range.val(), 10) || 0;
+            var t = (value / 1000) * dur;
+            player.seekTo(t, true);
+        });
+
+        // If API already loaded before this script ran
+        ensurePlayer();
+    });
+})();
 
 /* ===================================
         Mouse parallax
@@ -611,3 +1082,97 @@ if ($(window).width() > 991) {
         animatedCursor();
     }, 1000);
 }
+
+/*===================================
+    Home banner image loop (SVG image)
+====================================== */
+
+(function () {
+    var paths = [
+        'static/image/slider-img0.png',
+        'static/image/slider-img.png',
+        'static/image/slider-img01.png',
+        'static/image/slider-img02.png',
+    ];
+
+    function setSvgImageHref(el, href) {
+        if (!el) return;
+        // Modern browsers
+        el.setAttribute('href', href);
+        // Back-compat for xlink
+        el.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', href);
+    }
+
+    $(function () {
+        var elA = document.getElementById('banner-slider-img');
+        if (!elA) return;
+
+        // Create a second <image> stacked on top for crossfade overlap.
+        var elB = document.getElementById('banner-slider-img-2');
+        if (!elB) {
+            try {
+                elB = elA.cloneNode(true);
+                elB.setAttribute('id', 'banner-slider-img-2');
+                // Ensure it is painted above the first image.
+                if (elA.parentNode) {
+                    elA.parentNode.appendChild(elB);
+                }
+            } catch (e) {
+                elB = null;
+            }
+        }
+
+        var front = elA;
+        var back = elB || elA;
+
+        var index = 0;
+        var intervalMs = 2800; // faster cycle
+        var fadeMs = 450; // faster crossfade
+        var isAnimating = false;
+
+        function next() {
+            if (isAnimating) return;
+            isAnimating = true;
+            index = (index + 1) % paths.length;
+
+            // Crossfade overlap: back fades in while front fades out.
+            try { back.style.opacity = '0'; } catch (e) {}
+            setSvgImageHref(back, paths[index]);
+
+            // Next frame: trigger transition
+            requestAnimationFrame(function () {
+                try { front.style.opacity = '0'; } catch (e) {}
+                try { back.style.opacity = '1'; } catch (e) {}
+
+                setTimeout(function () {
+                    // Swap roles
+                    var tmp = front;
+                    front = back;
+                    back = tmp;
+                    isAnimating = false;
+                }, Math.max(0, fadeMs + 30));
+            });
+        }
+
+        // Ensure initial href is consistent
+        setSvgImageHref(front, paths[0]);
+        try { front.style.opacity = '1'; } catch (e) {}
+        if (back && back !== front) {
+            try { back.style.opacity = '0'; } catch (e) {}
+        }
+        setInterval(next, intervalMs);
+    });
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
