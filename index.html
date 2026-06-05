@@ -1,37 +1,90 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
-    <!-- Meta Tags -->
     <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-    <!-- Description -->        
-    <meta name="description" content="大家都是阿公阿嬤的寶貝">
-    <meta name="author" content="大家都是阿公阿嬤的寶貝">
-    <meta name="description" content="從鐵路局宿舍開始的故事">
-    <meta property="og:image" content="static/picture/portfolio-img-1.jpg" />
-    <!-- Page Title -->
-    <title>大家都是阿公阿嬤的寶貝</title>
-    <!-- Favicon -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>數位族譜｜黃家家族網站與故事紀錄</title>
+    <meta name="description" content="數位族譜平台，提供家族族譜建立、祖先資料整理、族譜查詢與世系圖生成，讓家族歷史永久保存。">
+    <meta name="keywords" content="數位族譜,家族族譜,線上族譜,族譜系統,族譜查詢,genealogy,family tree">
+    <meta name="robots" content="index, follow">
+    <meta property="og:image" content="static/image/contact-bg.jpg">
+    <link rel="canonical" href="https://jazzplaza.github.io/ad/ad.html">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://code.jquery.com">
     <link href="static/picture/logo.png" rel="icon">
-    <!-- Bundle -->
     <link rel="stylesheet" href="static/css/bundle.min.css">
-    <!-- Plugin Css -->
     <link href="static/css/LineIcons.min.css" rel="stylesheet">
     <link href="static/css/jquery.fancybox.min.css" rel="stylesheet">
     <link href="static/css/owl.carousel.min.css" rel="stylesheet">
     <link href="static/css/wow.css" rel="stylesheet">
-    <!-- Style Sheet -->
     <link href="static/css/tootik.min.css" rel="stylesheet">
     <link href="static/css/line-awesome.min.css" rel="stylesheet">
     <link href="static/css/jquery.pagepiling.css" rel="stylesheet">
     <link href="static/css/style.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"><link rel="stylesheet" href="./style047.css">
+    <link rel="stylesheet" href="./style047.css">
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-T7QMD26F');
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J49JCLQLXK"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-J49JCLQLXK');
+    </script>
 </head>
-
-</head>
-
-
 <body data-spy="scroll" data-target=".navbar" data-offset="90">
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T7QMD26F" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+    <div class="contact-icons">
+    <!-- Genealogy Info -->
+    <button type="button" class="icon info-icon" id="genealogy-info-trigger" aria-haspopup="dialog" aria-controls="genealogy-info-modal" aria-expanded="false" data-tooltip="族譜問題通報">
+        <span class="info-icon-badge" aria-hidden="true"><i class="las la-info"></i></span>
+        <span class="sr-only">族譜問題通報</span>
+    </button>    
+    <!-- YouTube Audio 
+    <button type="button" class="icon yt-audio-icon" id="yt-audio-trigger" aria-pressed="false" aria-label="播放音效" data-tooltip="聽咱的故事">
+        <i class="lab la-youtube" aria-hidden="true"></i>-->
+    </button>
+    </div>
+
+    <!-- Mobile genealogy zoom controls -->
+    <div class="genealogy-zoom-controls" id="genealogy-zoom-controls" aria-label="樹狀圖縮放控制" hidden>
+        <button type="button" class="genealogy-zoom-btn" data-zoom-action="out" aria-label="縮小">−</button>
+        <button type="button" class="genealogy-zoom-btn" data-zoom-action="reset" aria-label="重置">1×</button>
+        <button type="button" class="genealogy-zoom-btn" data-zoom-action="in" aria-label="放大">＋</button>
+    </div>
+
+    <!-- Hidden YouTube audio player (for sound only) -->
+    <div class="yt-audio-player" aria-hidden="true">
+        <div id="yt-audio-player"></div>
+    </div>
+
+<!-- Bottom audio timeline (shows only while playing) -->
+<div class="yt-audio-bar" id="yt-audio-bar" hidden>
+    <button type="button" class="yt-audio-bar__btn" id="yt-audio-bar-toggle" aria-label="停止播放">
+        <i class="fa fa-stop" aria-hidden="true"></i>
+    </button>
+    <div class="yt-audio-bar__meta">
+        <div class="yt-audio-bar__title alt-font" id="yt-audio-bar-title">音源播放中</div>
+        <div class="yt-audio-bar__time alt-font"><span id="yt-audio-bar-current">0:00</span> / <span id="yt-audio-bar-duration">0:00</span></div>
+    </div>
+    <input class="yt-audio-bar__range" id="yt-audio-bar-range" type="range" min="0" max="1000" value="0" step="1" aria-label="播放進度">
+</div>
+
+<div class="info-modal" id="genealogy-info-modal" role="dialog" aria-modal="true" aria-labelledby="genealogy-info-title" hidden>
+    <div class="info-modal__backdrop" data-modal-close="true"></div>
+    <div class="info-modal__panel">
+        <button type="button" class="info-modal__close" data-modal-close="true" aria-label="關閉說明視窗">&times;</button>
+        <h3 id="genealogy-info-title">族譜問題通報</h3>
+        <p style="font-family: 'Microsoft JhengHei', 'Heiti TC', 'sans-serif'; font-weight: 500;">本數位族譜在蒐整資料階段處處受阻，多趟前往戶政事務所都被告知炎成阿公養父收養沒有完善，無法讓後代子孫獲取完整的祖先戶籍資料，感受到上上一代人的辛苦與無奈，就在一籌莫展時...謙任跟我說：查不到第一代，那就我們把可查到的資料當作第一代吧!很棒的想法，轉個念那就把現有的資訊做最完善的呈現。<br>若大家手邊有珍貴的照片或生活近況，隨時歡迎傳給我做頁面更新！讓我們一起把這個空間填滿，讓每位家族成員都能感受到滿滿的溫暖與歡樂。<br>Line ID：jazzplaza</p>
+    </div>
+</div>
 
 <!-- Preloader -->
 <div class="loader" id="loader-fade">
@@ -55,6 +108,14 @@
                         <span></span>
                         <span></span>
                     </div>
+                    <div class="side-brand-tagline" aria-label="DIGITAL GENEALOGY ARCHIVES TAIWAN EST.2025">
+                        <div class="side-brand-tagline__big">DIGITAL</div>
+                        <div class="side-brand-tagline__big">GENEALOGY</div>
+                        <div class="side-brand-tagline__big">ARCHIVES</div>
+                        <div class="side-brand-tagline__spacer"></div>
+                        <div class="side-brand-tagline__big">TAIWAN</div>
+                        <div class="side-brand-tagline__big">EST.2026</div>
+                    </div>
                     <div>
                         <a class="brand-logo sticky-logo link" href="">
                             <img src="static/picture/logo.png" alt="logo" style="height: 80%;width: 80%;">
@@ -64,21 +125,24 @@
                     <nav class="side-nav-menu">
                         <ul class="nav-menu nav-fill" id="menu">
                             <li class="nav-item">
-                                <a data-menuanchor="home-banner" class="nav-link link active line" href="#home-banner">家 </a>
+                                <a data-menuanchor="home-banner" class="nav-link link active line" href="#home-banner">家 Home</a>
                             </li>
                             <li class="nav-item">
-                                <a data-menuanchor="about" class="nav-link link line" href="#about">樹狀圖</a>
+                                <a data-menuanchor="about" class="nav-link link line" href="#about">樹狀圖 Family Tree</a>
                             </li>
                             <li class="nav-item">
-                                <a data-menuanchor="team" class="nav-link link line" href="#team">好味道</a>
+                                <a data-menuanchor="team" class="nav-link link line" href="#team">好味道 The taste of memory</a>
                             </li>
                             <li class="nav-item">
-                                <a data-menuanchor="portfolio" class="nav-link link line" href="#portfolio">美好照片</a>
-                            </li>                            
+                                <a data-menuanchor="portfolio" class="nav-link link line" href="#portfolio">美好照片 Precious Photo</a>
+                            </li>
                             <li class="nav-item">
-                                <a data-menuanchor="contact" class="nav-link link line" href="#contact">承先啟後故事</a></li>
+                                <a data-menuanchor="blog" class="nav-link link line" href="#blog">美好影片 Precious Videos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-menuanchor="contact" class="nav-link link line" href="#contact">承先啟後故事 Our Story</a></li>
                         </ul>                        
-                        <p class="rites-res link"><span style="color: #000000;">© 2025 族譜更新維護</span> </p>
+                        
                     </nav>
                 </div>
             </div>
@@ -93,14 +157,17 @@
         <div class="slider-area" id="slider-area">
             <div class="bg-overlay bg-pink opacity-8"></div>
             <div class="container">
-                <div class="row align-items-center">
+                <div class="row align-items-center banner-row-scale">
                     <div class="col-12 col-md-6 section1left wow" data-wow-delay=".8s">
-                        <h1 class="main-font font-weight-bold text-white">從鐵路局宿舍 <span class="d-block">開始的故事</span></h1>
-                        <p class="alt-font text-white my-4">黃炎成 阿公：沒力麥好曉、沒錢麥好曉<br>黃卓鉛 阿嬤：三兩鈗仔愛知除 </p>
+                        <img src="static/image/title.png" class="title-img title-img--banner" alt="">
+                        <!--<h1 class="main-font font-weight-bold text-white" >數位族譜 <span class="d-block">講咱的家族故事</span></h1>-->
+                        <p class="alt-font text-white my-4">彰化扇形車站旁的鐵路局宿舍，曾是炎成阿公與卓鉛阿嬤的家。雖然如今這片「彰化臺鐵舊宿舍群」已被列為文化資產，部分建築也已拆除，但往昔圍爐過年的熱鬧氣氛，依然歷歷在目。記憶中那組紅色的沙發、牆上掛滿叔叔的獎狀，還有神明桌前擺滿豐盛佳餚的大圓桌……這一切，從未在時光裡褪色。<br><br>
+豪爽愛小酌的阿公，碰上傳統而認份的阿嬤，兩人的性格完美互補。他們口中那些關於上上一代的辛酸歲月，不僅是一段歷史，更是對我們的深切期許——願後代能透過努力翻轉人生，過上安穩幸福的日子。</p>
                         <a href="#about" class="btn btn-medium btn-rounded btn-trans text-capitalize mb-4 mb-md-0">觀看家族樹狀圖</a>
                     </div>
                     <div class="col-12 col-md-6 section1right wow" data-wow-delay=".8s">
                         <div class="banner-image">
+                            <div class="banner-orbit" aria-hidden="true"></div>
                             <svg class="slider-shape" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 700 700">
                                 <g>
                                     <path data-depth="0.05" id="shape-1" fill="#ffffff" d="M355.43 45.1C398 31.19 442.59 29 484 39.88c55.11 14.5 117.25 54.91 134.57 160.78 0 0 18.6 99.41-12.78 232 0 0-38.65 142.61-90.66 192 0 0-59 61.95-148.78 59.18 0 0-42.15 0-102.34-27.17 0 0-184-88.78-240.17-199S11 211.81 150.69 135.43C241.1 86 314.73 58.41 355.43 45.1z" opacity=".25"></path>
@@ -108,11 +175,11 @@
                                     <path data-depth="0.09" id="shape-3" fill="#ffffff" d="M112.59 129.56c18.72-39.73 47.85-73.83 84.82-97.56 49.2-31.55 123.12-52.4 216.29-.29 0 0 89.1 47.22 169.11 151.43 0 0 82.67 115.68 84.6 184.07 0 0 6.77 81.22-57.4 145.42 0 0-29.09 30.94-91.54 58.46 0 0-195.21 80.68-318.52 54.43S2.54 484.38 40.43 335.12C65 238.51 94.68 167.58 112.59 129.56z" opacity=".25"></path>
                                     <path id="shape-4" d="M129.39 153.77C146.74 117 173.73 85.35 208 63.38c45.59-29.25 114.09-48.57 200.42-.28 0 0 82.56 43.75 156.7 140.31 0 0 76.61 107.2 78.4 170.57 0 0 6.27 75.26-53.19 134.75 0 0-27 28.67-84.82 54.17 0 0-180.89 74.76-295.15 50.43S27.41 482.55 62.52 344.24c22.74-89.52 50.27-155.24 66.87-190.47z" opacity="0"></path>
                                     <clippath id="shape-img">
-                                        <use xlink:href="#shape-4" style="overflow:visible;"></use>
+                                        <circle cx="350" cy="350" r="350"></circle>
                                     </clippath>
                                 </g>
                                 <!--Change Image path here-->
-                                <image data-depth="0.1" clip-path="url(#shape-img)" height="100%" width="100%" xlink:href="static/image/slider-img.png"></image>
+                                <image id="banner-slider-img" data-depth="0.1" clip-path="url(#shape-img)" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" xlink:href="static/image/slider-img.png"></image>
                             </svg>
                         </div>
                     </div>
@@ -126,15 +193,23 @@
     <section class="section slide2 about" id="about">
         <div class="bg-overlay bg-gray opacity-8"></div>
         <div class="box position-relative about-zoom5In wow" data-wow-delay=".5s">
-        <div class="box-overlay"></div>
-        <div class="row align-items-center">
-                    <div class="col-12 col-md-7 col-lg-9">
-                        <h2 class="main-font">全員&泉源 | 家族樹狀圖</h2>
-                        <p class="py-4 py-md-0">圖示上有手指圖示，表示可點擊看到延伸的成員，橫向拉霸及向下延伸家族全員&泉源完整呈現。</p>
-                    </div>                    
-                </div></div>
-        <div class="col-12 px-0 section-heading about-fadeIn wow animated" data-wow-delay=".5s" style="visibility: visible;animation-delay: 0.5s;display: flex;justify-content: center;">
-        <!-- partial:index.partial.html -->
+            <div class="box-overlay"></div>
+            <div class="row align-items-center justify-content-center">
+	                <div class="col-12 col-md-8 col-lg-9 text-left">
+	                    <h2 class="main-font">全員&泉源 | 家族樹狀圖</h2>
+	                    <div class="story-title-divider" aria-hidden="true"></div>
+	                    <p class="py-4 py-md-0">點擊姓名即可展開，族譜與長輩族譜分別檢視，畫面右下角有放大縮小控制功能方便觀看。</p>
+	                </div>
+                <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center">
+                    <div class="genealogy-tablist" role="tablist" aria-label="家族樹切換">
+                        <button type="button" class="genealogy-tab is-active" data-genealogy-tab="paternal" role="tab" aria-selected="true" aria-controls="genealogy-panel-paternal" id="genealogy-tab-paternal">族譜</button>
+                        <button type="button" class="genealogy-tab" data-genealogy-tab="maternal" role="tab" aria-selected="false" aria-controls="genealogy-panel-maternal" id="genealogy-tab-maternal">長輩族譜</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 px-0 section-heading about-fadeIn wow animated genealogy-panel-wrap" data-wow-delay=".5s" style="visibility: visible;animation-delay: 0.5s;display: flex;justify-content: center;">
+        <template id="genealogy-tree-family-template">
 <div class="body genealogy-body genealogy-scroll">
     <div class="genealogy-tree">
         <ul>
@@ -156,7 +231,7 @@
                                 <div class="member-image">
                                     <img src="./img/2-1.png" alt="Member">
                                     <div class="member-details">
-                                        <h3>黃美雲&林榮金</h3>
+                                        <h3>林黃美雲&林榮金</h3>
                                     </div>
                                 </div>
                             </div>
@@ -381,7 +456,7 @@
                                 <div class="member-image2">
                                     <img src="./img/2-3.png" alt="Member">
                                     <div class="member-details">
-                                        <h3>黃美珠</h3>
+                                        <h3>黃鈺方</h3>
                                     </div>
                                 </div>
                             </div>
@@ -517,11 +592,17 @@
                                                 </div>
                                             </div>
                                         </a>
-                                    </li>                                 
+                                    </li>
+                                    
+                                    
                                 </ul>
                             </li>
+                            
+                            
+                            
                         </ul>
                     </li>
+                    
                                 </ul>
                             </li>
                         </ul>
@@ -531,88 +612,241 @@
         </ul>
     </div>
 </div>
-        </div>        
+        </template>
+        <template id="genealogy-tree-ancestor-template">
+<div class="genealogy-panel genealogy-panel--ancestor">
+<div class="ancestor-scroll genealogy-scroll">
+<div class="body genealogy-body genealogy-body--ancestor-split">
+    <div class="genealogy-tree genealogy-tree--ancestor genealogy-tree--ancestor-left">
+        <ul>
+            <li>                
+                <div class="ancestor-prestack" aria-hidden="true">
+                    <div class="member-view-box">
+                        <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="1">
+                            <div class="ancestor-gen-label" aria-hidden="true">先祖</div>
+                            <h3>鄭阿扁 &鄭賴氏阿金 </h3>
+                            <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                <div class="ancestor-note__bubble">
+                                    福建籍，黃炎成生父母，黃溪的表哥
+                                </div>
+                            </div>
+                            <div class="ancestor-arrow-inside" aria-hidden="true">▼</div>
+                        </div>
+                    </div>
+                    <div class="ancestor-prestack-row">
+                        <div class="member-view-box ancestor-prestack-row__main">
+                            <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="2">
+                                <div class="ancestor-gen-label" aria-hidden="true">先祖</div>
+                                <h3>黃溪 &黃陳阿麵 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        福建籍，黃炎成養父母，鄭阿扁的表弟
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ancestor-prestack-row ancestor-prestack-row--gen3">
+                        <div class="member-view-box ancestor-prestack-row__main">
+                            <div class="member-details ancestor-gen-main has-html-gen-label" data-ancestor-gen="3">
+                                <div class="ancestor-gen-label" aria-hidden="true">先祖</div>
+                                <h3>黃炎成 &黃卓鉛 </h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        彰化縣，民國15年出生，昭和五年(民國19年)以螟蛉子(養子)身分組入臺中州彰化郡大竹庄牛稠子(彰化縣彰化市的中部偏西北)，臺鐵最年輕駕駛員(第一名錄取)，黃炎成享年84，黃卓鉛享年91
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="member-view-box ancestor-prestack-row__sib-right" style="display:flex;flex-direction:column;gap:10px;align-self:flex-start;margin-top:-252px;margin-left:120px;">
+                            <div class="member-details has-html-gen-label" data-ancestor-gen="3">
+                                <div class="ancestor-gen-label" aria-hidden="true">先祖</div>
+                                <h3>卓守 &劉氏卜 (卓泉父母)</h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                       福建籍 ，理髮職
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-details has-html-gen-label" data-ancestor-gen="3">
+                                <div class="ancestor-gen-label" aria-hidden="true">先祖</div>
+                                <h3>卓泉 &卓梁蔥 (卓錦父母)</h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        臺中州，明治四年(1871年)出生，阿片吸食，臺中州彰化郡彰化街彰化字北門番地
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-details has-html-gen-label" data-ancestor-gen="3">
+                                <div class="ancestor-gen-label" aria-hidden="true">先祖</div>
+                                <h3>卓錦 &卓王英.卓陳玉惜 (卓鉛父母)</h3>
+                                <div class="ancestor-note ancestor-note--left" aria-label="註解">
+                                    <div class="ancestor-note__bubble">
+                                        台灣省，民前16年(1896年)出生，理髮職，台灣省彰化三上巷11號(吉祥街8巷11號附近)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ul class="active">
+                    <li>
+                        
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+</div>
+        </template>
+        <div class="genealogy-panel is-active" data-genealogy-panel="paternal" id="genealogy-panel-paternal" role="tabpanel" aria-labelledby="genealogy-tab-paternal"></div>
+        <div class="genealogy-panel" data-genealogy-panel="maternal" id="genealogy-panel-maternal" role="tabpanel" aria-labelledby="genealogy-tab-maternal" hidden></div>
+        <div class="tree-open-hint" id="tree-open-hint" aria-hidden="true">
+            <img src="img/tree_open.png" alt="展開樹狀圖提示">
+        </div>
+        </div>
     </section>
 <!-- END ABOUT -->
 
 <!-- START TEAM -->
-<section class="section slide6 blog-bg" id="team">
+    <section class="section slide6 blog-bg" id="team">
         <div class="bg-overlay bg-yellow opacity-8"></div>
         <div class="container expand-container">
-            <div class="row align-items-center section-heading">
-                <div class="col-12 col-md-6 main-heading section5left wow" data-wow-delay=".8s">
-                    <h2 class="main-font"><img src="static/image/title_01.png" width="250px"> <span class="d-block"></span></h2>
+            <div class="row align-items-start section-template-row">
+                <div class="col-12 col-lg-4 section-template-intro wow" data-wow-delay=".6s">
+                    <h2 class="main-font section-template-title-img">
+                        <img src="static/image/title_01.png" class="title-img title-img--section" alt="好味道">
+                    </h2>
+                    <p class="section-template-subtitle alt-font" style="color:#f54343;">大姑丈熱情的問候，多樣在地小吃在大姑丈家中享用，這是最棒的滋味最有溫度的所在。</p>
+                    <a href="#portfolio" class="btn btn-medium btn-rounded btn-trans text-capitalize section-template-btn">照片回味</a>
                 </div>
-                <div class="col-12 col-md-6 section5right wow" data-wow-delay=".8s">
+                <div class="col-12 col-lg-8 section-template-content wow" data-wow-delay=".8s">
                     <div class="owl-testimonial owl-carousel">
-                        
+                        <!-- Item 1 -->
+                        <div class="item">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-8 offset-md-1">
+                                    <div class="icon-quotes-left mb-3"></div>
+                                    <div class="description text-center text-md-right">
+                                        <p class="text-white paragraph speech-bubble" style='font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; font-weight: 500;'>洋溢著笑容、熱情大方的樸實個性提供一個家人們在彰化的溫暖休憩所在~</p>
+                                    </div>
+                                    <div class="icon-quotes-right mt-md-3"></div>
+                                </div>
+
+                                <div class="col-12 col-md-3">
+                                    <div class="testimonial-img">
+                                            <img src="static/picture/testimonial-img-2.png" alt="熱情大姑丈">
+                                            <div class="testimonial-label">熱情大姑丈</div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                        <!-- Item 2 -->
+                        <div class="item">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-8 offset-md-1">
+                                    <div class="icon-quotes-left mb-3"></div>
+                                    <div class="description text-center text-md-right">
+                                        <p class="text-white paragraph speech-bubble" style='font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; font-weight: 500;'>彰化地方知名人物，伴手禮早就備妥給大家最棒的家鄉味</p>
+                                    </div>
+                                    <div class="icon-quotes-right mt-md-3"></div>
+                                </div>
+
+                                <div class="col-12 col-md-3">
+                                    <div class="testimonial-img">  
+                                            <img src="static/picture/testimonial-img-1.png" alt="熱歌勁舞小姑姑">
+                                            <div class="testimonial-label">熱歌勁舞小姑姑</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 3 -->
+                        <div class="item">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-md-8 offset-md-1">
+                                    <div class="icon-quotes-left mb-3"></div>
+                                    <div class="description text-center text-md-right">
+                                        <p class="text-white paragraph speech-bubble" style='font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; font-weight: 500;'>幹練型男!說走就走的效率派人士，美食伴手禮人人有份!</p>
+                                    </div>
+                                    <div class="icon-quotes-right mt-md-3"></div>
+                                </div>
+
+                                <div class="col-12 col-md-3">
+                                    <div class="testimonial-img">    
+                                            <img src="static/picture/testimonial-img-3.png" alt="行動派叔叔">
+                                            <div class="testimonial-label">行動派叔叔</div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
                     </div>
                 </div>
             </div>
-    
 
             <!--Team-->
-            <div class="row team-fade wow" data-wow-delay=".8s">
+            <div class="row team-fade wow section-template-secondary" data-wow-delay=".8s">
                 <div class="col-sm-12">
-                    <div id="team-slider" class="owl-carousel owl-theme wow fadeInUp">
-                        <!--Team Item-->
-                        <div class="team-box item">
-                            <!--Team Image-->
-                            <div class="team-image">
-                                <img src="static/picture/team-img1.jpg" alt="image">
-                            </div>
+	                    <div id="team-slider" class="owl-carousel owl-theme wow fadeInUp">
+	                        <!--Team Item-->
+	                        <div class="team-box item">
+	                            <!--Team Image-->
+	                            <div class="team-image">
+	                                <img src="static/picture/team-img1.jpg" alt="image">
+	                            </div>
                             <!--Team Text-->
                             <div class="team-text">
-                                <h5 class="main-font">木瓜牛乳大王</h5>
-                                <span class="alt-font">紅豆牛奶冰、木瓜牛奶必點</span>                                
+                                <h5 class="main-font">大姑丈家</h5>
+                                <span class="alt-font">彰化最溫暖的厝</span>                                
                             </div>
-                        </div>
-                        <!--Team Item-->
-                        <div class="team-box item">
+	                        </div>
+	                        <!--Team Item-->
+	                        <div class="team-box item">
                             <!--Team Image-->
                             <div class="team-image">
                                 <img src="static/picture/team-img2.jpg" alt="image">
                             </div>
                             <!--Team Text-->
                             <div class="team-text">
-                                <h5 class="main-font">彰化肉圓</h5>
-                                <span class="alt-font">阿三、阿璋、北門口都好吃!</span>                                
+                                <h5 class="main-font">阿三肉圓</h5>
+                                <span class="alt-font">超級排隊名店</span>                                
                             </div>
-                        </div>
-                        <!--Team Item-->
-                        <div class="team-box item">
+	                        </div>
+	                        <!--Team Item-->
+	                        <div class="team-box item">
                             <!--Team Image-->
                             <div class="team-image">
                                 <img src="static/picture/team-img3.jpg" alt="image">
                             </div>
                             <!--Team Text-->
                             <div class="team-text">
-                                <h5 class="main-font">素麵</h5>
-                                <span class="alt-font">三餐消夜點心都適合</span>                                
+                                <h5 class="main-font">不二坊蛋黃酥</h5>
+                                <span class="alt-font">讚不絕口的美味</span>                                
                             </div>
-                        </div>
-                        <!--Team Item-->
-                        <div class="team-box item">
+	                        </div>
+	                        <!--Team Item-->
+	                        <div class="team-box item">
                             <!--Team Image-->
                             <div class="team-image">
                                 <img src="static/picture/team-img-4.jpg" alt="image">
                             </div>
                             <!--Team Text-->
                             <div class="team-text">
-                                <h5 class="main-font">控肉飯</h5>
-                                <span class="alt-font">阿泉、魚市場或榕樹下都好棒</span>                                
+                                <h5 class="main-font">木瓜牛乳大王創始店</h5>
+                                <span class="alt-font">大排長龍也要吃</span>                                
                             </div>
-                        </div>
-                        <!--Team Item-->
-                        <div class="team-box item">
+	                        </div>
+	                        <!--Team Item-->
+	                        <div class="team-box item">
                             <!--Team Image-->
                             <div class="team-image">
                                 <img src="static/picture/team-img-5.jpg" alt="image">
                             </div>
                             <!--Team Text-->
                             <div class="team-text">
-                                <h5 class="main-font">米糕</h5>
-                                <span class="alt-font">最在地的好味道</span>                                
+                                <h5 class="main-font">Fluffy芙菲小圓餅</h5>
+                                <span class="alt-font">台式馬卡龍人氣伴手禮</span>                                
                             </div>
                         </div>
                     </div>
@@ -626,307 +860,206 @@
     <section class="section slide4 portfolio-bg" id="portfolio">
         <div class="bg-overlay text-light-black opacity-8"></div>
         <div class="container">
-            <div class="row align-items-center section-heading">
-                <div class="col-12 col-md-6 main-heading section4left wow" data-wow-delay=".8s">
-                    <h2 class="main-font"><img src="static/image/title_02.png" width="250px" > </h2>
+            <div class="row align-items-start section-template-row">
+                <div class="col-12 col-lg-4 section-template-intro wow" data-wow-delay=".6s">
+                    <h2 class="main-font section-template-title-img">
+                        <img src="static/image/title_02.png" class="title-img title-img--section" alt="照片回味">
+                    </h2>
+                    <p class="section-template-subtitle alt-font">我們身上，都帶著阿公那份與人交心的相挺，以及阿嬤那抹撫平歲月的溫柔~<br><br>這兩種力量在我們心中生根，讓我們在面對風雨時，既有勇氣也能善良。</p>
+                    <a href="#blog" class="btn btn-medium btn-rounded btn-trans text-capitalize section-template-btn">影片回味</a>
                 </div>
-                <div class="col-12 col-md-6 section4right wow" data-wow-delay=".8s">
-                    <div class="row my-4 my-md-0">
-                        
-                        
-                    </div>
+	                <div class="col-12 col-lg-8 section-template-content wow" data-wow-delay="0s">
+	            <!-- Portfolio -->
+	            <div class="row portfolio-fade wow" data-wow-delay="0s">
+	                <div class="col-sm-12">
+	                    <div class="portfolio-main">
+	                        <a class="portfolio-main__link" href="img/0010.jpg" data-fancybox="portfolio-images" data-caption="毓婷小姐姐作東 / 20260110龍都酒樓">
+	                            <div class="portfolio-main__frame">
+	                                <img class="portfolio-main__img" src="img/0010.jpg" alt="毓婷小姐姐作東 / 20260110龍都酒樓">
+	                                <div class="portfolio-main__overlay" aria-hidden="true">
+	                                    <div class="portfolio-main__icon"><i class="fa fa-plus"></i></div>
+	                                    <div class="portfolio-main__hint alt-font">原圖</div>
+	                                </div>
+	                            </div>
+	                            <img class="portfolio-main__corner-png" src="img/toy.png" alt="" aria-hidden="true">
+	                        </a>
+	                        <div class="portfolio-main__caption text-yellow main-font">毓婷小姐姐作東 / 20260110龍都酒樓</div>
+	                    </div>
+	                </div>
+	            </div>
+	                </div>
+	            </div>
+
+	            <div class="row">
+	                <div class="col-12 col-lg-8 offset-lg-4">
+	                    <div class="portfolio-thumbs" aria-label="更多照片縮圖">
+	                        <button type="button" class="portfolio-thumbs__nav portfolio-thumbs__nav--prev" aria-label="上一張縮圖">
+	                            <i class="lni-chevron-left"></i>
+	                        </button>
+	                        <div class="portfolio-thumbs__viewport">
+	                            <div class="portfolio-thumbs__track">
+	                            <a class="portfolio-thumbs__item is-active" href="img/0010.jpg" data-thumb="img/0010.jpg" data-caption="毓婷小姐姐作東 / 20260110龍都酒樓" aria-label="0010">
+	                                <img src="img/0010.jpg" alt="0010">
+	                            </a>
+	                            <a class="portfolio-thumbs__item" href="img/0007.jpg" data-thumb="img/0007.jpg" data-caption="黃淇&陳之硯婚宴 / 20240106" aria-label="0007">
+	                                <img src="img/0007.jpg" alt="0007">
+	                            </a>
+	                            <a class="portfolio-thumbs__item" href="img/0008.jpg" data-thumb="img/0008.jpg" data-caption="黃淇&陳之硯婚宴 / 20240106婚宴" aria-label="0008">
+	                                <img src="img/0008.jpg" alt="0008">
+	                            </a>
+	                            <a class="portfolio-thumbs__item" href="img/0009.jpg" data-thumb="img/0009.jpg" data-caption="黃淇&陳之硯婚宴 / 20240106婚宴" aria-label="0009">
+	                                <img src="img/0009.jpg" alt="0009">
+	                            </a>
+	                            <a class="portfolio-thumbs__item" href="img/0006.jpg" data-thumb="img/0006.jpg" data-caption="辭修路家中  " aria-label="0006">
+	                                <img src="img/0006.jpg" alt="0006">
+	                            </a>
+	                            <a class="portfolio-thumbs__item" href="img/0005.jpg" data-thumb="img/0005.jpg" data-caption="辭修路家中  " aria-label="0005">
+	                                <img src="img/0005.jpg" alt="0005">
+	                            </a>
+	                            <a class="portfolio-thumbs__item" href="img/0004.jpg" data-thumb="img/0004.jpg" data-caption="美好回憶 / 2013" aria-label="0004">
+	                                <img src="img/0004.jpg" alt="0004">
+	                            </a>
+                                <a class="portfolio-thumbs__item" href="img/0003.jpg" data-thumb="img/0003.jpg" data-caption="辭修路家中  " aria-label="0003">
+                                    <img src="img/0003.jpg" alt="0003">
+                                </a>
+                                <a class="portfolio-thumbs__item" href="img/0002.jpg" data-thumb="img/0002.jpg" data-caption="美好回憶  " aria-label="0002">
+                                    <img src="img/0002.jpg" alt="0002">
+                                </a>
+                                <a class="portfolio-thumbs__item" href="img/0011.jpg" data-thumb="img/0011.jpg" data-caption="弘揚孝道中秋晚會 / 2013 彰化玉皇宮" aria-label="0011">
+                                    <img src="img/0011.jpg" alt="0011">
+                                </a>
+	                            </div>
+	                        </div>
+	                        <button type="button" class="portfolio-thumbs__nav portfolio-thumbs__nav--next" aria-label="下一張縮圖">
+	                            <i class="lni-chevron-right"></i>
+	                        </button>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </section>
+<!-- END PORTFOLIO -->
+
+<!-- START BLOG -->
+    <section class="section slide6 team" id="blog">
+        <div class="bg-overlay bg-blue opacity-8"></div>
+        <div class="container expand-container">
+            <div class="row align-items-start section-template-row">
+                <div class="col-12 col-lg-4 section-template-intro wow" data-wow-delay=".6s">
+                    <h2 class="main-font section-template-title-img">
+                        <img src="static/image/title_03.png" class="title-img title-img--section" alt="影片回味">
+                    </h2>
+                    <p class="section-template-subtitle alt-font">那些與阿嬤交織的生命記憶<br><br>個性溫馴、質樸溫柔的阿嬤，是大家最喜歡依偎的長者。她總是靜靜地聽著大家話家常，不時被家人們逗笑，模樣十足可愛。現在雖然沒有阿嬤陪在身旁，但每當想起她，內心依舊能感受到滿滿的溫暖。</p>
+                    <a href="#contact" class="btn btn-medium btn-rounded btn-trans text-capitalize section-template-btn">訴說家族故事</a>
                 </div>
-            </div>
-            <!-- Portfolio -->
-            <div class="row portfolio-fade wow" data-wow-delay=".8s">
-                <div class="col-sm-12">
-                    <div class="team-classic owl-team owl-carousel text-center">
-                    <!-- Item 2023 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/0001.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-1.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
+                <div class="col-12 col-lg-8 section-template-content video-review-scope" id="video-review-scope">
+                    <div class="video-review video-review--single" aria-label="影片回顧">
+                        <div class="video-review__main">
+                            <div class="video-review__frame-shell">
+                                <div class="video-review__frame">
+                                    <div class="video-review__frame-media">
+                                        <iframe
+                                            class="video video-review__iframe"
+                                            id="video-review-main"
+                                            src="https://www.youtube.com/embed/ZsegcJUPFCI?rel=0"
+                                            title="懷念阿嬤"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
                                     </div>
-                                </a>                                
-                            </div>
-                        </div>
-                        <!-- Item 1 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/0002.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-2.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase"></h5>
+                                    <img class="video-review__frame-img" src="static/image/frame.png" alt="" aria-hidden="true">
                                 </div>
                             </div>
+                            <div class="video-review__title main-font text-yellow" id="video-review-title">阿嬤影片</div>
                         </div>
-                        <!-- Item 2 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/0003.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-3.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase"></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 3 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/0004.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-4.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase"></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 4 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/0005.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-5.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase"></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 5 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/0006.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-6.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase"></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 7 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/0007.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-7.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase"></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 8 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/0008.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-8.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase"></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 9 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/0009.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-9.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase"></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 10 -->
-                        <div class="item">
-                            <div class="team-data-img">
-                                <a href="./img/0010.jpg" data-fancybox="portfolio-images">
-                                    <div class="single-work">
-                                        <img src="static/picture/portfolio-img-10.jpg" alt="team" class="img-responsive" data-no-retina="">
-                                        <div class="overlay-text center-block">
-                                            <div class="cases-image-inner">
-                                                <span class="cases-line top"></span>
-                                                <span class="cases-line top-right"></span>
-                                                <span class="cases-line bottom"></span>
-                                                <span class="cases-line bottom-left"></span>
-                                                <div class="image-overlay">
-                                                    <div class="search-icon"><i class="fa fa-plus"></i></div>
-                                                    <h6 class="text-white text-uppercase alt-font">放大鏡</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="portfolio-content">
-                                    <h5 class="text-yellow main-font mb-2 text-uppercase"></h5>
-                                </div>
-                            </div>
-                        </div>      
-                        
-                        
-                                              
                     </div>
-                    <a class="circle ini-customPrevBtn" id="team-circle-left">
-                        <i class="lni-chevron-left"></i>
-                    </a>
-                    <a class="circle ini-customNextBtn" id="team-circle-right">
-                        <i class="lni-chevron-right"></i>
-                    </a>
                 </div>
             </div>
         </div>
     </section>
-<!-- END PORTFOLIO -->
-
-
+<!-- END BLOG -->
 
 <!-- START CONTACT -->
     <section class="section slide5 contact-sec" id="contact">
         <div class="bg-overlay bg-green opacity-9"></div>
-        
-            <div class="row">
-                <div class="col-12" data-wow-delay=".8s">
-                    <div class="container">                
-                    <div class="contact-us-contact">
-                        <div class="contact-text text-center deep-black play-fair">
-                         <div class="col-12 wow text-center text-lg-left d-flex align-items-center" data-wow-delay=".8s">
-                    <div class="contact-details wow fadeInRight">
-                        <h4 class="heading main-font">訴說家族故事</h4>
-                        <p class="text alt-font">炎成阿公、卓鉛阿嬤是恪守本分的傳統個性，男主外女主內的辛苦的年代默默將子女拉拔成人，從鐵路局宿舍、過溝仔房子、七樓房子、辭修路華廈皆有著大家過年熱鬧歡聚的回憶，總能感受到阿公爽朗聲音和阿嬤默默烹煮佳餚的香味，看著後代豐衣足食正是阿公阿嬤最欣慰滿足的事情。隨著家人們在各地落地生根發展相聚漸少，請記得每個家族成員都是阿公阿嬤的寶貝，都要健康平安過好日子。<hr style="border-color:white;"><br>彰化市立殯儀館資訊：<br>祖先牌位30408 B <br>阿公阿嬤 223216 E <br>大姑(林黃美雲)100226 W <br>中姑(黃鈺方)220416 S </p>
-                        
+        <div class="container expand-container">
+            <div class="row align-items-start section-template-row">
+	                <div class="col-12 col-lg-4 section-template-intro wow" data-wow-delay=".6s">
+	                    <h2 class="section-template-title main-font">訴說家族故事</h2>
+	                    <div class="story-title-divider" aria-hidden="true"></div>
+	                    <p class="section-template-subtitle alt-font">把記憶整理成故事，讓故事繼續流傳</p>
+	                    <img src="img/0825_tree_420.png" class="story-tree-float" alt="家族樹狀圖">                    
+	                </div>
+	                <div class="col-12 col-lg-8 section-template-content wow" data-wow-delay=".8s">
+	                    <div class="contact-details wow fadeInRight">
+	                        <div class="story-tabs" role="tablist" aria-label="訴說家族故事內容切換">
+	                            <button type="button" class="story-tab is-active" data-story-tab="story" role="tab" aria-selected="true" aria-controls="story-panel-story" id="story-tab-story">故事內容</button>
+	                            <button type="button" class="story-tab" data-story-tab="memorial" role="tab" aria-selected="false" aria-controls="story-panel-memorial" id="story-tab-memorial">追思資訊</button>
+	                        </div>
+	                        <div class="story-panels">
+	                            <div class="story-panel is-active" id="story-panel-story" role="tabpanel" aria-labelledby="story-tab-story">
+	                                <p class="text alt-font" style="color:#4f4f4f;">炎成阿公與卓鉛阿嬤，一生恪守本分、默默耕耘。在那個男主外、女主內的艱辛年代，夫妻倆齊心將子女拉拔長大。從當初的鐵路局宿舍、過溝仔的老房子，到後來的七樓住宅與辭修路華廈，每一個空間，都承載著全家人過年時熱鬧歡聚的珍貴回憶。那時的屋子裡，總能聽見阿公爽朗的笑聲，聞到阿嬤在廚房默默烹煮的佳餚香氣。<br><br>
+
+對兩位長輩而言，看著子孫豐衣足食，就是最欣慰、最滿足的事。如今，雖然家人們已在各地落地生根、聚少離多，但請深深記得：我們每一個人都是阿公阿嬤心頭的寶貝，好好把日子過得平安健康，就是對祂們最好的回報。</p>
+	                            </div>
+			                            <div class="story-panel" id="story-panel-memorial" role="tabpanel" aria-labelledby="story-tab-memorial" hidden>
+                                            <div class="memorial-block text alt-font" style="color:#4f4f4f;">
+                                                <div class="memorial-row">
+                                                    <span class="memorial-label">▶ 先祖墓地於彰化市第二公墓(前培元中學)</span>
+                                                    <a class="memorial-coord memorial-coord--map" href="https://www.google.com/maps/search/?api=1&query=24.074327,120.569374" target="_blank" rel="noopener noreferrer" title="Google Maps">
+                                                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                                        <span class="memorial-coord__text">Google Maps</span>
+                                                    </a>
+                                                </div>
+                                                <div class="memorial-row">
+                                                    <span class="memorial-label">▶ 祖先牌位安奉於彰化殯儀館 納骨塔</span>
+                                                    <span class="memorial-coord">30408 B</span>
+                                                </div>
+                                                <div class="memorial-row">
+                                                    <span class="memorial-label">▶ 阿公阿嬤安奉於彰化殯儀館 納骨塔</span>
+                                                    <span class="memorial-coord">223216 E</span>
+                                                </div>
+                                                <div class="memorial-row">
+                                                    <span class="memorial-label">▶ 大姑姑(林黃美雲)安奉於彰化殯儀館 納骨塔</span>
+                                                    <span class="memorial-coord">100226 W</span>
+                                                </div>
+                                                <div class="memorial-row">
+                                                    <span class="memorial-label">▶ 中姑姑(黃鈺方)安奉於彰化殯儀館 納骨塔</span>
+                                                    <span class="memorial-coord">220416 S</span>
+			                                    </div>			                            
+			                                </div>
+			                            </div>
+	                        </div>
                     </div>
                 </div>
-                        </div>  
-                
             </div>
-                
-                
+            <div class="row">
+                <div class="col-12">
+                    <div class="timeline-container">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/01.png" alt="Event 1"></div>
+                                <p>過溝仔家</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/02.png" alt="Event 2"></div>
+                                <p>七樓雙拼家</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/03.png" alt="Event 3"></div>
+                                <p>辭修路住宅</p>
+                            </div>                            
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/01.png" alt="Event 5"></div>
+                                <p>阿嬤榮獲彰化市模範母親</p>
+                            </div>                            
+                            <div class="timeline-item">
+                                <div class="circle_"><img src="static/image/03.png" alt="Event 7"></div>
+                                <p>家族故事還會繼續</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -934,8 +1067,8 @@
 </div>
 
 <!-- Start Copyright -->
-<div class="slider-bottom cursor-light">    
-    <div class="slider-copyright text-white link"><a target="_blank" href="https://www.design-awesome.com/">族譜更新維護 2025.03 </a></div>
+<div class="slider-bottom cursor-light">   
+    <div class="slider-copyright text-white link">族譜更新維護 <a target="_blank" href="https://awesomebobi.blogspot.com/">奧森設計工作室</a></div>
 </div>
 <!-- End Copyright -->
 
@@ -946,22 +1079,64 @@
     </div>
 </div>
 
-<!-- JavaScript -->
-<!--<script>
-    setTimeout(function() {
-      window.location.href = "https://lurl.cc/kSgVP8";
-    }, 2000); // 2000毫秒（即2秒）后执行跳转
-  </script>-->
-<script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>
-<script  src="./script.js"></script>
-<script src="static/js/bundle.min.js"></script>
-<script src="static/js/wow.min.js"></script>
+
+<script defer src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script defer src="./script.js"></script>
+<script defer src="static/js/bundle.min.js"></script>
+<script defer src="static/js/wow.min.js"></script>
 <!-- Plugin Js -->
-<script src="static/js/jquery.appear.js"></script>
-<script src="static/js/jquery.fancybox.min.js"></script>
-<script src="static/js/owl.carousel.min.js"></script>
+<script defer src="static/js/jquery.appear.js"></script>
+<script defer src="static/js/jquery.fancybox.min.js"></script>
+<script defer src="static/js/owl.carousel.min.js"></script>
 <!-- CUSTOM JS -->
-<script src="static/js/jquery.pagepiling.min.js"></script>
-<script src="static/js/TweenMax.min.js"></script>
-<script src="static/js/contact_us.js"></script>
-<script src="static/js/script.js"></script></body></html>
+<script defer src="static/js/jquery.pagepiling.min.js"></script>
+<script defer src="static/js/TweenMax.min.js"></script>
+<script defer src="static/js/contact_us.js"></script>
+<script>
+    // Ensure callback exists before YouTube IFrame API loads.
+    window.onYouTubeIframeAPIReady = window.onYouTubeIframeAPIReady || function () {};
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script defer src="static/js/script.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "奧森數位族譜",
+      "url": "https://jazzplaza.github.io/ad/ad.html",
+      "description": "建立家族族譜、祖先世系與家族故事的數位族譜平台",
+      "inLanguage": "zh-TW",
+      "publisher": {
+        "@id": "https://jazzplaza.github.io/ad/ad.html#organization"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://jazzplaza.github.io/ad/ad.html#organization",
+      "name": "奧森設計工作室",
+      "url": "https://awesomebobi.blogspot.com/"
+    }
+  ]
+}
+</script>
+</body></html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
