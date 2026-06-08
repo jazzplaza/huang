@@ -627,15 +627,75 @@ if ($(".owl-videos").length) {
 ====================================== */
 
 (function () {
+    function escapeHtml(value) {
+        return String(value == null ? '' : value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function getPortfolioPhotos($portfolio) {
+        var dataEl = $portfolio.find('#portfolio-photo-data').get(0);
+        if (!dataEl) return [];
+        try {
+            var parsed = JSON.parse(dataEl.textContent || '[]');
+            if (!Array.isArray(parsed)) return [];
+            return parsed.filter(function (item) {
+                return item && item.src;
+            }).map(function (item) {
+                return {
+                    src: String(item.src),
+                    caption: String(item.caption || ''),
+                    alt: String(item.alt || item.caption || '')
+                };
+            });
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function renderPortfolio($portfolio, photos) {
+        if (!$portfolio.length || !photos.length) return;
+
+        var main = photos[0];
+        var mainHtml = [
+            '<a class="portfolio-main__link" href="', escapeHtml(main.src), '" data-fancybox="portfolio-images" data-caption="', escapeHtml(main.caption), '">',
+                '<div class="portfolio-main__frame">',
+                    '<img class="portfolio-main__img" src="', escapeHtml(main.src), '" alt="', escapeHtml(main.caption || main.alt), '">',
+                    '<div class="portfolio-main__overlay" aria-hidden="true">',
+                        '<div class="portfolio-main__icon"><i class="fa fa-plus"></i></div>',
+                        '<div class="portfolio-main__hint alt-font">原圖</div>',
+                    '</div>',
+                '</div>',
+                '<img class="portfolio-main__corner-png" src="img/toy.png" alt="" aria-hidden="true">',
+            '</a>',
+            '<div class="portfolio-main__caption text-yellow main-font">', escapeHtml(main.caption), '</div>'
+        ].join('');
+        $portfolio.find('.portfolio-main').first().html(mainHtml);
+
+        var thumbsHtml = photos.map(function (photo, idx) {
+            return [
+                '<a class="portfolio-thumbs__item', (idx === 0 ? ' is-active' : ''), '" href="', escapeHtml(photo.src), '" data-thumb="', escapeHtml(photo.src), '" data-caption="', escapeHtml(photo.caption), '" aria-label="', escapeHtml(photo.alt || ('photo-' + idx)), '">',
+                    '<img src="', escapeHtml(photo.src), '" alt="', escapeHtml(photo.alt || photo.caption), '">',
+                '</a>'
+            ].join('');
+        }).join('');
+        $portfolio.find('.portfolio-thumbs__track').first().html(thumbsHtml);
+    }
+
     function initThumbs($root) {
+        var $portfolio = $root.closest('#portfolio');
+        renderPortfolio($portfolio, getPortfolioPhotos($portfolio));
         var $track = $root.find('.portfolio-thumbs__track');
         var $items = $track.find('.portfolio-thumbs__item');
         var $prev = $root.find('.portfolio-thumbs__nav--prev');
         var $next = $root.find('.portfolio-thumbs__nav--next');
-        var $portfolio = $root.closest('#portfolio');
         var $mainLink = $portfolio.find('.portfolio-main__link').first();
         var $mainImg = $portfolio.find('.portfolio-main__img').first();
         var $mainCaption = $portfolio.find('.portfolio-main__caption').first();
+        var $mainFrame = $portfolio.find('.portfolio-main__frame').first();
 
         var visibleCount = 3;
 
@@ -682,6 +742,15 @@ if ($(".owl-videos").length) {
 
         // Start at the first original item (after prepended clones).
         var index = cloneCount;
+        var currentOriginalIndex = 0;
+
+        function normalizeOriginalIndex(originalIndex) {
+            var next = parseInt(originalIndex, 10);
+            if (isNaN(next)) next = 0;
+            if (!originalCount) return 0;
+            next = ((next % originalCount) + originalCount) % originalCount;
+            return next;
+        }
 
         function selectOriginal(originalIndex) {
             if (originalIndex == null) return;
@@ -708,6 +777,13 @@ if ($(".owl-videos").length) {
             if ($mainCaption.length) {
                 $mainCaption.text(caption);
             }
+        }
+
+        function goToOriginal(originalIndex, animate) {
+            currentOriginalIndex = normalizeOriginalIndex(originalIndex);
+            selectOriginal(currentOriginalIndex);
+            index = cloneCount + currentOriginalIndex;
+            render(animate !== false);
         }
 
         function itemStepPx() {
@@ -749,20 +825,84 @@ if ($(".owl-videos").length) {
             e.preventDefault();
             var originalIndex = this.dataset.originalIndex;
             if (typeof originalIndex === 'undefined') return;
-            selectOriginal(originalIndex);
-            index = cloneCount + (parseInt(originalIndex, 10) || 0);
-            render(true);
+            goToOriginal(originalIndex, true);
         });
 
         $prev.on('click', function () {
-            index -= 1;
-            render(true);
+            goToOriginal(currentOriginalIndex - 1, true);
         });
 
         $next.on('click', function () {
-            index += 1;
-            render(true);
+            goToOriginal(currentOriginalIndex + 1, true);
         });
+
+        if ($mainFrame.length) {
+            var dragState = null;
+            var dragThreshold = 36;
+            var clickCancelThreshold = 8;
+
+            function getPoint(event) {
+                if (event.originalEvent && event.originalEvent.touches && event.originalEvent.touches.length) {
+                    return event.originalEvent.touches[0];
+                }
+                if (event.originalEvent && event.originalEvent.changedTouches && event.originalEvent.changedTouches.length) {
+                    return event.originalEvent.changedTouches[0];
+                }
+                return event;
+            }
+
+            function startDrag(event) {
+                var point = getPoint(event);
+                dragState = {
+                    startX: point.clientX,
+                    startY: point.clientY,
+                    moved: false,
+                    swiped: false
+                };
+                $mainFrame.addClass('is-dragging');
+            }
+
+            function moveDrag(event) {
+                if (!dragState) return;
+                var point = getPoint(event);
+                var deltaX = point.clientX - dragState.startX;
+                var deltaY = point.clientY - dragState.startY;
+
+                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > clickCancelThreshold) {
+                    dragState.moved = true;
+                    if (event.cancelable) event.preventDefault();
+                }
+
+                if (!dragState.swiped && Math.abs(deltaX) >= dragThreshold && Math.abs(deltaX) > Math.abs(deltaY)) {
+                    dragState.swiped = true;
+                    if (deltaX < 0) {
+                        goToOriginal(currentOriginalIndex + 1, true);
+                    } else {
+                        goToOriginal(currentOriginalIndex - 1, true);
+                    }
+                }
+            }
+
+            function endDrag() {
+                if (!dragState) return;
+                if (dragState.moved || dragState.swiped) {
+                    $mainLink.data('cancelClickOnce', true);
+                }
+                dragState = null;
+                $mainFrame.removeClass('is-dragging');
+            }
+
+            $mainFrame.on('mousedown touchstart', startDrag);
+            $(document).on('mousemove.portfolioMainSwipe', moveDrag);
+            $(document).on('mouseup.portfolioMainSwipe touchend.portfolioMainSwipe touchcancel.portfolioMainSwipe', endDrag);
+
+            $mainLink.on('click', function (event) {
+                if ($mainLink.data('cancelClickOnce')) {
+                    event.preventDefault();
+                    $mainLink.removeData('cancelClickOnce');
+                }
+            });
+        }
 
         $(window).on('resize', function () {
             render(false);
@@ -773,9 +913,7 @@ if ($(".owl-videos").length) {
             $initial = $items.not('.is-clone').first();
         }
         var initIdx = $initial.get(0) ? ($initial.get(0).dataset.originalIndex || '0') : '0';
-        selectOriginal(initIdx);
-        index = cloneCount + (parseInt(initIdx, 10) || 0);
-        render(false);
+        goToOriginal(initIdx, false);
     }
 
     $(function () {
@@ -1097,23 +1235,34 @@ if ($(window).width() > 991) {
 
     function setSvgImageHref(el, href) {
         if (!el) return;
-        // Modern browsers
         el.setAttribute('href', href);
-        // Back-compat for xlink
         el.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', href);
+    }
+
+    function preloadBannerImages(list) {
+        list.forEach(function (src) {
+            try {
+                var img = new Image();
+                img.decoding = 'async';
+                img.src = src;
+            } catch (e) {}
+        });
     }
 
     $(function () {
         var elA = document.getElementById('banner-slider-img');
         if (!elA) return;
+        if (elA.dataset.loopReady === 'true') return;
+        elA.dataset.loopReady = 'true';
 
-        // Create a second <image> stacked on top for crossfade overlap.
+        preloadBannerImages(paths);
+
         var elB = document.getElementById('banner-slider-img-2');
         if (!elB) {
             try {
                 elB = elA.cloneNode(true);
                 elB.setAttribute('id', 'banner-slider-img-2');
-                // Ensure it is painted above the first image.
+                elB.removeAttribute('data-loop-ready');
                 if (elA.parentNode) {
                     elA.parentNode.appendChild(elB);
                 }
@@ -1124,45 +1273,70 @@ if ($(window).width() > 991) {
 
         var front = elA;
         var back = elB || elA;
-
         var index = 0;
-        var intervalMs = 2800; // faster cycle
-        var fadeMs = 450; // faster crossfade
+        var intervalMs = 3200;
+        var fadeMs = 450;
         var isAnimating = false;
+        var timerId = null;
+
+        function scheduleNext() {
+            if (timerId) {
+                window.clearTimeout(timerId);
+            }
+            timerId = window.setTimeout(next, intervalMs);
+        }
 
         function next() {
-            if (isAnimating) return;
+            if (document.hidden) {
+                scheduleNext();
+                return;
+            }
+            if (isAnimating) {
+                scheduleNext();
+                return;
+            }
+
             isAnimating = true;
             index = (index + 1) % paths.length;
-
-            // Crossfade overlap: back fades in while front fades out.
             try { back.style.opacity = '0'; } catch (e) {}
             setSvgImageHref(back, paths[index]);
 
-            // Next frame: trigger transition
             requestAnimationFrame(function () {
-                try { front.style.opacity = '0'; } catch (e) {}
-                try { back.style.opacity = '1'; } catch (e) {}
+                requestAnimationFrame(function () {
+                    try { front.style.opacity = '0'; } catch (e) {}
+                    try { back.style.opacity = '1'; } catch (e) {}
 
-                setTimeout(function () {
-                    // Swap roles
-                    var tmp = front;
-                    front = back;
-                    back = tmp;
-                    isAnimating = false;
-                }, Math.max(0, fadeMs + 30));
+                    window.setTimeout(function () {
+                        var tmp = front;
+                        front = back;
+                        back = tmp;
+                        isAnimating = false;
+                        scheduleNext();
+                    }, Math.max(0, fadeMs + 40));
+                });
             });
         }
 
-        // Ensure initial href is consistent
         setSvgImageHref(front, paths[0]);
         try { front.style.opacity = '1'; } catch (e) {}
         if (back && back !== front) {
             try { back.style.opacity = '0'; } catch (e) {}
         }
-        setInterval(next, intervalMs);
+
+        document.addEventListener('visibilitychange', function () {
+            if (!document.hidden && !isAnimating) {
+                scheduleNext();
+            }
+        });
+
+        scheduleNext();
     });
 })();
+
+
+
+
+
 
 
 
