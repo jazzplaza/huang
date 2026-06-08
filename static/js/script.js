@@ -687,7 +687,8 @@ if ($(".owl-videos").length) {
 
     function initThumbs($root) {
         var $portfolio = $root.closest('#portfolio');
-        renderPortfolio($portfolio, getPortfolioPhotos($portfolio));
+        var photos = getPortfolioPhotos($portfolio);
+        renderPortfolio($portfolio, photos);
         var $track = $root.find('.portfolio-thumbs__track');
         var $items = $track.find('.portfolio-thumbs__item');
         var $prev = $root.find('.portfolio-thumbs__nav--prev');
@@ -900,6 +901,27 @@ if ($(".owl-videos").length) {
                 if ($mainLink.data('cancelClickOnce')) {
                     event.preventDefault();
                     $mainLink.removeData('cancelClickOnce');
+                    return;
+                }
+
+                if (window.jQuery && $.fancybox && photos && photos.length) {
+                    event.preventDefault();
+                    $.fancybox.open(
+                        photos.map(function (photo) {
+                            return {
+                                src: photo.src,
+                                opts: {
+                                    caption: photo.caption
+                                }
+                            };
+                        }),
+                        {
+                            loop: true,
+                            hash: null,
+                            animationEffect: 'fade'
+                        },
+                        currentOriginalIndex
+                    );
                 }
             });
         }
@@ -1332,6 +1354,7 @@ if ($(window).width() > 991) {
         scheduleNext();
     });
 })();
+
 
 
 
