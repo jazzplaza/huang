@@ -66,7 +66,7 @@
 }
 
 #genealogy-panel-maternal .ancestor-gen6-mini-table__cell {
-    min-height: 28px;
+    min-height: 56px;
     border: 0;
     background: transparent;
     display: flex;
@@ -1579,7 +1579,7 @@
 }
 
 .section-template-subtitle {
-    font-size: 18px;
+    font-size: 36px;
     line-height: 1.6;
     opacity: 0.95;
     margin-bottom: 18px;
@@ -1719,6 +1719,15 @@
     display: block;
 }
 
+.portfolio-main__frame {
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+}
+
+.portfolio-main__frame.is-dragging {
+    cursor: grabbing;
+}
 .portfolio-main__frame {
     position: relative;
     border-radius: 16px;
@@ -1974,7 +1983,7 @@
 }
 .video-review__title {
     margin-top: 10px;
-    font-size: 18px;
+    font-size: 36px;
     line-height: 1.25;
 }
 
@@ -2478,7 +2487,7 @@
     border: 0;
     background: rgba(0, 0, 0, 0.55);
     color: #fff;
-    font-size: 18px;
+    font-size: 36px;
     font-weight: 700;
     display: grid;
     place-items: center;
@@ -3019,6 +3028,131 @@
         min-width: 960px;
     }
 }
+
+
+
+
+
+
+.mobile-mascot {
+    display: none;
+}
+
+@media (max-width: 767.98px) {
+    .mobile-mascot {
+        position: fixed;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1350;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        max-width: min(88vw, 300px);
+        pointer-events: none;
+    }
+
+    .mobile-mascot.is-hidden {
+        display: none !important;
+    }
+
+    .mobile-mascot__bubble {
+        position: relative;
+        background: rgba(255, 255, 255, 0.96);
+        color: #3c3c3c;
+        border-radius: 16px;
+        padding: 18px 14px 12px 18px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+        font-size: 14px !important;
+        line-height: 1.55 !important;
+        max-width: 180px;
+        pointer-events: auto;
+    }
+
+    .mobile-mascot__bubble::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -10px;
+        transform: translateY(-50%);
+        border-width: 10px 0 10px 10px;
+        border-style: solid;
+        border-color: transparent transparent transparent rgba(255, 255, 255, 0.96);
+    }
+
+    .mobile-mascot__figure-wrap {
+        position: relative;
+        width: 134px;
+        flex: 0 0 auto;
+        pointer-events: auto;
+        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.18));
+    }
+
+    .mobile-mascot__img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .mobile-mascot__hand-wave {
+        position: absolute;
+        inset: 0;
+        display: block;
+        pointer-events: none;
+        transform-origin: 76% 74%;
+        animation: mascot-hand-wave 1.8s ease-in-out infinite;
+        will-change: transform;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+
+    .mobile-mascot__img--hand {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+.mobile-mascot__close {
+        position: absolute;
+        left: -35px;
+        top: -35px;
+        width: 56px;
+        height: 56px;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(53, 53, 53, 0.86);
+        color: #fff;
+        font-size: 36px;
+        line-height: 1;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        z-index: 2;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+    }
+
+    .mobile-mascot__close:active {
+        transform: scale(0.94);
+    }
+}
+
+@keyframes mascot-hand-wave {
+    0%, 100% { transform: rotate(0deg); }
+    22% { transform: rotate(-4deg); }
+    50% { transform: rotate(1deg); }
+    78% { transform: rotate(5deg); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
