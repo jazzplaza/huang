@@ -121,6 +121,10 @@
 	            onLeave: function (index, nextIndex, direction) {
                 //reaching our First section? The one with our normal site?
 
+                if (window.hideMobileMascot) {
+                    window.hideMobileMascot();
+                }
+
                 $('.navbar-top-default').fadeOut();
                 $('.slider-bottom .slider-social').fadeOut();
                 $('.slider-copyright').fadeOut();
@@ -1392,8 +1396,25 @@ if ($(window).width() > 991) {
             $mascot.removeClass('is-hidden');
         }
 
-        $close.on('click', function () {
+        function hideMobileMascot() {
             $mascot.addClass('is-hidden');
+        }
+
+        window.hideMobileMascot = hideMobileMascot;
+
+        function hideMobileMascotOnMove(event) {
+            if ($(event.target).closest('#mobile-mascot').length) {
+                return;
+            }
+            hideMobileMascot();
+        }
+
+        $(window).on('wheel.mobileMascot DOMMouseScroll.mobileMascot touchmove.mobileMascot touchstart.mobileMascot', hideMobileMascotOnMove);
+        $(document).on('wheel.mobileMascot DOMMouseScroll.mobileMascot touchmove.mobileMascot touchstart.mobileMascot', hideMobileMascotOnMove);
+        $('#pagepiling').on('wheel.mobileMascot DOMMouseScroll.mobileMascot touchmove.mobileMascot touchstart.mobileMascot', hideMobileMascotOnMove);
+
+        $close.on('click', function () {
+            hideMobileMascot();
         });
 
         if (mq && typeof mq.addEventListener === 'function') {
@@ -1405,6 +1426,7 @@ if ($(window).width() > 991) {
         syncMascotVisibility();
     });
 })();
+
 
 
 
