@@ -1373,3 +1373,39 @@ if ($(window).width() > 991) {
 
 
 
+
+/*===================================
+    Mobile mascot helper
+====================================== */
+(function () {
+    $(function () {
+        var mq = window.matchMedia ? window.matchMedia('(max-width: 767.98px)') : null;
+        var $mascot = $('#mobile-mascot');
+        var $close = $('#mobile-mascot-close');
+        if (!$mascot.length || !$close.length) return;
+
+        function syncMascotVisibility() {
+            if (mq && !mq.matches) {
+                $mascot.addClass('is-hidden');
+                return;
+            }
+            $mascot.removeClass('is-hidden');
+        }
+
+        $close.on('click', function () {
+            $mascot.addClass('is-hidden');
+        });
+
+        if (mq && typeof mq.addEventListener === 'function') {
+            mq.addEventListener('change', syncMascotVisibility);
+        } else if (mq && typeof mq.addListener === 'function') {
+            mq.addListener(syncMascotVisibility);
+        }
+
+        syncMascotVisibility();
+    });
+})();
+
+
+
+
