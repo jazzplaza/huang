@@ -1587,6 +1587,11 @@
     font-weight: 500;
 }
 
+.section-template-subtitle--original {
+    font-size: 18px;
+    line-height: 1.75;
+}
+
 .subtitle-frame {
     padding: 14px 14px;
     border-radius: 14px;
@@ -1668,6 +1673,94 @@
     padding-top: 6px;
 }
 
+#team-slider {
+    text-align: center;
+}
+
+#team-slider .owl-stage {
+    display: flex;
+    align-items: stretch;
+}
+
+#team-slider .owl-item {
+    display: flex;
+    align-items: stretch;
+}
+
+#team-slider .owl-item .item {
+    width: 100%;
+}
+
+.team-box {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 430px;
+    padding: 10px;
+    background-color: #ffffff;
+    position: relative;
+    transform: scale(0.7);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+.team-box .team-image {
+    position: relative;
+    overflow: hidden;
+    flex: 1 1 auto;
+}
+
+.team-box .team-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-box .team-text {
+    text-align: center;
+    font-size: 14px;
+    padding: 1.3rem 0 0 0;
+}
+
+.team-box .team-text span,
+.team-box .team-text .team-social {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.team-box .team-text h5 {
+    font-size: 22px;
+    color: #232728;
+    font-weight: normal;
+}
+
+.team-box .team-text span {
+    color: #212331;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+#team-slider .owl-item.center .item {
+    height: auto;
+    transform: scale(1);
+}
+
+#team-slider .owl-item.center .team-box {
+    transform: scale(1);
+    box-shadow: 0 22px 42px rgba(0, 0, 0, 0.18);
+}
+
+#team-slider .owl-item.center .team-box .team-text h5 {
+    font-size: 24px;
+}
+
+#team-slider .owl-item.center .item .team-text span,
+#team-slider .owl-item.center .item .team-text .team-social {
+    opacity: 1;
+}
 .section-template-secondary {
     margin-top: 18px;
 }
@@ -3141,6 +3234,8 @@
     50% { transform: rotate(1deg); }
     78% { transform: rotate(5deg); }
 }
+
+
 
 
 
