@@ -1,4 +1,11 @@
-﻿$(window).on("load", function () {
+jQuery(function ($) {
+    "use strict";
+
+    setTimeout(function () {
+        $("#loader-fade").fadeOut("slow");
+    }, 700);
+});
+$(window).on("load", function () {
 
     "use strict";
 
@@ -1426,6 +1433,7 @@ if ($(window).width() > 991) {
         syncMascotVisibility();
     });
 })();
+
 
 
 
