@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
     <meta charset="utf-8">
@@ -100,6 +100,19 @@
         <div class="indeterminate"></div>
     </div>
 </div>
+<script>
+    (function () {
+        window.setTimeout(function () {
+            var loader = document.getElementById('loader-fade');
+            if (!loader) return;
+            loader.style.opacity = '0';
+            loader.style.pointerEvents = 'none';
+            window.setTimeout(function () {
+                loader.style.display = 'none';
+            }, 450);
+        }, 700);
+    })();
+</script>
 <!-- Preloader End -->
 
 <!-- START HEADER -->
@@ -1090,7 +1103,7 @@
     // Ensure callback exists before YouTube IFrame API loads.
     window.onYouTubeIframeAPIReady = window.onYouTubeIframeAPIReady || function () {};
 </script>
-<script src="https://www.youtube.com/iframe_api"></script>
+<script async src="https://www.youtube.com/iframe_api"></script>
 <script defer src="static/js/script.js"></script>
 <script type="application/ld+json">
 {
@@ -1116,6 +1129,7 @@
 }
 </script>
 </body></html>
+
 
 
 
